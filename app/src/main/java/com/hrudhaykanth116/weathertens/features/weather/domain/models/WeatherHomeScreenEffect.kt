@@ -1,0 +1,3 @@
+package com.hrudhaykanth116.weathertens.features.weather.domain.models
+
+sealed interface WeatherHomeScreenEffect

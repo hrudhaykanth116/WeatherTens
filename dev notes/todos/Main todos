@@ -1,0 +1,8 @@
+
+Display user error messages and remove user messages in all places.
+
+Implement splas screen api and login status properly.
+
+Use di for dispatchers in data layer components.
+
+Add Firebase app check for App integrity.
