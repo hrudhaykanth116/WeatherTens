@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_bg_color"
-        >
+        android:layout_marginBottom="@dimen/default_margin"
+        app:cardCornerRadius="@dimen/_15sdp"
+        card_view:cardElevation="@dimen/_4sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#9936D6"
-            android:layout_marginBottom="@dimen/default_margin"
+            android:background="@color/primary_bg_color"
+            android:padding="@dimen/default_margin"
             android:paddingVertical="@dimen/_16sdp">
 
             <TextView
                 android:id="@+id/day"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="@dimen/_20ssp"
+                android:textSize="@dimen/_16ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -30,10 +31,10 @@
 
             <TextView
                 android:id="@+id/weather"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="@dimen/_20ssp"
+                android:textSize="@dimen/_16ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/minTemp"
                 app:layout_constraintStart_toEndOf="@+id/day"
@@ -42,32 +43,30 @@
 
             <TextView
                 android:id="@+id/minTemp"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:text="Min Temp: "
                 android:textColor="#000000"
-                android:textSize="@dimen/_20ssp"
-                android:text="maxTemp: "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toTopOf="@id/maxTemp"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/maxTemp"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="Max Temp: "
                 android:textColor="#000000"
-                android:textSize="@dimen/_20ssp"
-                android:text="maxTemp: "
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/minTemp"
-                />
+                app:layout_constraintTop_toBottomOf="@id/minTemp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </layout>

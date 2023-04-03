@@ -4,21 +4,20 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import coil.load
 import com.hrudhaykanth116.weathertens.R
 import com.hrudhaykanth116.weathertens.common.udf.UDFFragment
-import com.hrudhaykanth116.weathertens.databinding.FragmentWeatherHomeScreenBinding
-import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenEffect
-import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenEvent
-import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenUIState
 import com.hrudhaykanth116.weathertens.features.weather.ui.screens.adapters.ForeCastListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import com.hrudhaykanth116.weathertens.databinding.FragmentWeatherHomeScreenBinding as BINDING
+import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenEffect as EFFECT
+import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenEvent as EVENT
+import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherHomeScreenUIState as STATE
 
 
 @AndroidEntryPoint
 class WeatherHomeFragment :
-    UDFFragment<WeatherHomeScreenUIState, WeatherHomeScreenEvent, WeatherHomeScreenEffect, FragmentWeatherHomeScreenBinding>(
+    UDFFragment<STATE, EVENT, EFFECT, BINDING>(
         R.layout.fragment_weather_home_screen
     ) {
 
@@ -41,38 +40,31 @@ class WeatherHomeFragment :
 
     override fun initViews() {
         binding.weatherList.adapter = forecastListAdapter
-        binding.weatherList.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         binding.searchIcon.setOnClickListener {
-            processEvent(WeatherHomeScreenEvent.Refresh(binding.location.text?.toString()))
+            sendEvent(EVENT.Refresh(binding.location.text?.toString()))
         }
         binding.logoutBtn.setOnClickListener {
-            processEvent(WeatherHomeScreenEvent.LogOut)
-
+            sendEvent(EVENT.LogOut)
         }
     }
 
-    override fun processNewEffect(effect: WeatherHomeScreenEffect) {
+    override fun processNewEffect(effect: EFFECT) {
 
     }
 
-    override fun processNewState(state: WeatherHomeScreenUIState) {
+    override fun processNewState(state: STATE) {
 
         if (state.isLoggedOut) {
-            // findNavController().navigate(
-            //     WeatherHomeFragmentDirections.actionWeatherHomeScreenToAuthNavGraph()
-            // )
+            findNavController().navigate(
+                WeatherHomeFragmentDirections.actionWeatherHomeScreenToAuthNavGraph()
+            )
         }
 
         state.errorMessage?.let {
             Toast.makeText(requireContext(), it.getText(requireContext()), Toast.LENGTH_SHORT)
                 .show()
-            processEvent(WeatherHomeScreenEvent.UserMessageShown(it))
+            sendEvent(EVENT.UserMessageShown(it))
         }
 
         binding.userName.text = state.userName

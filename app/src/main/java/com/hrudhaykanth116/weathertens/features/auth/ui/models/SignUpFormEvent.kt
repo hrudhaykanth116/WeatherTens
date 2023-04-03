@@ -2,6 +2,7 @@ package com.hrudhaykanth116.weathertens.features.auth.ui.models
 
 import android.graphics.Bitmap
 import androidx.compose.ui.text.input.TextFieldValue
+import com.hrudhaykanth116.weathertens.common.data.models.UIText
 
 sealed interface SignUpFormEvent {
     data class ProfileImageChanged(val imgBitmap: Bitmap?): SignUpFormEvent
@@ -10,5 +11,6 @@ sealed interface SignUpFormEvent {
     data class ReEnteredPasswordChanged(val password: TextFieldValue): SignUpFormEvent
     data class UserNameChanged(val userName: TextFieldValue): SignUpFormEvent
     data class BioChanged(val bio: TextFieldValue): SignUpFormEvent
+    data class UserMessageShown(val message: UIText): SignUpFormEvent
     object Submit: SignUpFormEvent
 }

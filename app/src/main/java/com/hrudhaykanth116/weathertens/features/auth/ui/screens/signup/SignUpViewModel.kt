@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signupUseCase: SignUpUseCase,
-): UDFViewModel<SignUpUIState, SignUpFormEvent, SignUpEffect >(
+) : UDFViewModel<SignUpUIState, SignUpFormEvent, SignUpEffect>(
     SignUpUIState()
 ) {
 
@@ -36,9 +36,16 @@ class SignUpViewModel @Inject constructor(
             }
             SignUpFormEvent.Submit -> {
                 viewModelScope.launch {
+                    setState {
+                        copy(
+                            isLoading = true
+                        )
+                    }
                     val newUIState = signupUseCase(state)
                     setState {
-                        newUIState
+                        newUIState.copy(
+                            isLoading = false
+                        )
                     }
                 }
             }
@@ -55,6 +62,13 @@ class SignUpViewModel @Inject constructor(
             is SignUpFormEvent.UserNameChanged -> {
                 setState {
                     copy(userName = event.userName)
+                }
+            }
+            is SignUpFormEvent.UserMessageShown -> {
+                setState {
+                    copy(
+                        userMessage = null,
+                    )
                 }
             }
         }

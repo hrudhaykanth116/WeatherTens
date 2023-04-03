@@ -14,8 +14,8 @@ class WeatherListItemViewHolder(
     ) {
         listItemWeatherBinding.day.text = weatherListItemUIState.day
         listItemWeatherBinding.weather.text = weatherListItemUIState.weather
-        listItemWeatherBinding.minTemp.text = "Min temp: ${weatherListItemUIState.minTemp}"
-        listItemWeatherBinding.maxTemp.text = "Max temp: ${weatherListItemUIState.maxTemp}"
+        listItemWeatherBinding.minTemp.text = "Min temp: ${weatherListItemUIState.minTemp}℃"
+        listItemWeatherBinding.maxTemp.text = "Max temp: ${weatherListItemUIState.maxTemp}℃"
 
 
         listItemWeatherBinding.root.setOnClickListener {

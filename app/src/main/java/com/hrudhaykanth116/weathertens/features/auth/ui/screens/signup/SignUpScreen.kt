@@ -1,21 +1,25 @@
 package com.hrudhaykanth116.weathertens.features.auth.ui.screens.signup
 
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hrudhaykanth116.weathertens.R
+import com.hrudhaykanth116.weathertens.common.data.models.UIText
 import com.hrudhaykanth116.weathertens.common.ui.components.AppFormButton
 import com.hrudhaykanth116.weathertens.common.ui.components.AppFormInputText
-import com.hrudhaykanth116.weathertens.common.ui.components.CenteredColumn
+import com.hrudhaykanth116.weathertens.common.ui.components.AppToolbar
 import com.hrudhaykanth116.weathertens.common.ui.components.CircularImage
 import com.hrudhaykanth116.weathertens.common.ui.models.InputType
 import com.hrudhaykanth116.weathertens.common.ui.models.TextFieldData
@@ -27,6 +31,7 @@ import com.hrudhaykanth116.weathertens.features.auth.ui.models.SignUpUIState
 
 @Composable
 fun SignUpScreen(
+    modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = hiltViewModel(),
     onSignedIn: () -> Unit = {},
 ) {
@@ -53,35 +58,54 @@ fun SignUpScreen(
         }
     }
 
-    SignUpScreenContent(
-        state,
-        onProfileClicked = {
-            launcher.launch(null)
-        },
-        onEmailChanged = {
-            viewModel.processEvent(SignUpFormEvent.EmailChanged(it))
-        },
-        onPasswordChanged = {
-            viewModel.processEvent(SignUpFormEvent.PasswordChanged(it))
-        },
-        onReEnterPasswordChanged = {
-            viewModel.processEvent(SignUpFormEvent.ReEnteredPasswordChanged(it))
-        },
-        onUserNameChanged = {
-            viewModel.processEvent(SignUpFormEvent.UserNameChanged(it))
-        },
-        onBioChanged = {
-            viewModel.processEvent(SignUpFormEvent.BioChanged(it))
-        },
 
+    Column(
+        modifier = modifier,
+    ) {
+        AppToolbar(
+            modifier = modifier.fillMaxWidth(),
+            text = "Register",
+        )
+        Box(
+            contentAlignment = Alignment.Center
         ) {
-        viewModel.processEvent(SignUpFormEvent.Submit)
+            SignUpScreenContent(
+                modifier = Modifier.fillMaxSize(),
+                state,
+                onProfileClicked = {
+                    launcher.launch(null)
+                },
+                onEmailChanged = {
+                    viewModel.processEvent(SignUpFormEvent.EmailChanged(it))
+                },
+                onPasswordChanged = {
+                    viewModel.processEvent(SignUpFormEvent.PasswordChanged(it))
+                },
+                onReEnterPasswordChanged = {
+                    viewModel.processEvent(SignUpFormEvent.ReEnteredPasswordChanged(it))
+                },
+                onUserNameChanged = {
+                    viewModel.processEvent(SignUpFormEvent.UserNameChanged(it))
+                },
+                onBioChanged = {
+                    viewModel.processEvent(SignUpFormEvent.BioChanged(it))
+                },
+                onUserMessageShown = {
+                    viewModel.processEvent(SignUpFormEvent.UserMessageShown(it))
+                },
+                onSubmit = {
+                    viewModel.processEvent(SignUpFormEvent.Submit)
+                }
+            )
+            if(state.isLoading) CircularProgressIndicator()
+        }
     }
 }
 
 @MyPreview
 @Composable
 private fun SignUpScreenContent(
+    modifier: Modifier = Modifier,
     state: SignUpUIState = SignUpUIState(),
     onProfileClicked: () -> Unit = {},
     onEmailChanged: (TextFieldValue) -> Unit = {},
@@ -89,15 +113,28 @@ private fun SignUpScreenContent(
     onReEnterPasswordChanged: (TextFieldValue) -> Unit = {},
     onUserNameChanged: (TextFieldValue) -> Unit = {},
     onBioChanged: (TextFieldValue) -> Unit = {},
-    onSubmit: () -> Unit = {}
+    onUserMessageShown: (UIText) -> Unit = {},
+    onSubmit: () -> Unit = {},
 ) {
-    CenteredColumn {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
         state.userMessage?.let {
-            // TODO: Show user message or use effects.
+            val context = LocalContext.current
+            Toast.makeText(context, it.getText(context), Toast.LENGTH_LONG).show()
+            onUserMessageShown(it)
         }
 
-        Row() {
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             CircularImage(
                 modifier = Modifier.size(100.dp),
                 image = state.imgBitmap ?: R.drawable.profile_icon,
@@ -112,6 +149,7 @@ private fun SignUpScreenContent(
         ReEnterPasswordTextField(state, onReEnterPasswordChanged)
         UserNameTextField(state, onUserNameChanged)
         BioTextField(state, onBioChanged)
+        Spacer(modifier = Modifier.height(8.dp))
         AppFormButton(btnText = "Sign up") { onSubmit() }
     }
 }
@@ -138,7 +176,7 @@ private fun BioTextField(
 ) {
     AppFormInputText(
         TextFieldData(
-            label = "A short bio",
+            hint = "A short bio",
             inputType = InputType.RegularInputType,
             inputValue = state.bio,
             error = state.bioError?.getText()
@@ -153,7 +191,7 @@ private fun ReEnterPasswordTextField(
 ) {
     AppFormInputText(
         TextFieldData(
-            label = "ReEnter your password",
+            hint = "ReEnter your password",
             inputType = InputType.PwdInputType,
             inputValue = state.repeatedPassword,
             error = state.repeatedPasswordError?.getText()
@@ -168,7 +206,7 @@ private fun PasswordTextField(
 ) {
     AppFormInputText(
         TextFieldData(
-            label = "Enter your password",
+            hint = "Enter your password",
             inputType = InputType.PwdInputType,
             inputValue = state.passwordTextFieldValue,
             error = state.passwordError?.getText()
@@ -183,7 +221,7 @@ private fun EmailTextField(
 ) {
     AppFormInputText(
         TextFieldData(
-            label = "Enter your email",
+            hint = "Enter your email",
             inputType = InputType.EmailInputType,
             inputValue = state.emailTextFieldValue,
             error = state.emailError?.getText()

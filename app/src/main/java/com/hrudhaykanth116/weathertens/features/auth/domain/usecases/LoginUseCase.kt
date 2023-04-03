@@ -21,8 +21,9 @@ class LoginUseCase @Inject constructor(
 
         if (email.isNullOrBlank() || password.isNullOrBlank()) {
             return loginUIState.copy(
-                emailErrorMessage = UIText.Text("Email cannot be empty"),
-                passwordErrorMessage = UIText.Text("Password cannot be empty")
+                // emailErrorMessage = UIText.Text("Email cannot be empty"),
+                // passwordErrorMessage = UIText.Text("Password cannot be empty")
+                userMessage = UIText.Text("Please check email or password is not empty.")
             )
         }
 

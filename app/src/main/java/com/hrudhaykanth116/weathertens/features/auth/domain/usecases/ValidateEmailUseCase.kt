@@ -13,11 +13,11 @@ class ValidateEmailUseCase @Inject constructor(
     operator fun invoke(email: String?): UIText? {
 
         return if (
-            email == null
+            email.isNullOrBlank()
         ) {
             UIText.Text("Email cannot be empty")
         } else if (
-            Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            !Patterns.EMAIL_ADDRESS.matcher(email).matches()
         ) {
             UIText.Text("Not valid email format")
         } else {

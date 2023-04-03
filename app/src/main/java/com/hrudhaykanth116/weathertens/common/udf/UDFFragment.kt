@@ -63,7 +63,7 @@ abstract class UDFFragment<STATE, EVENT, EFFECT, BINDING : ViewDataBinding>(
         }
     }
 
-    fun processEvent(event: EVENT){
+    fun sendEvent(event: EVENT){
         viewModel.processEvent(event)
     }
 

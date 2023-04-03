@@ -89,9 +89,9 @@ data class WeatherForeCastResponse(
         @field:Json(name = "rain")
         val rain: Double? = null,
         @field:Json(name = "sunrise")
-        val sunrise: Float? = null,
+        val sunrise: Int? = null,
         @field:Json(name = "sunset")
-        val sunset: Float? = null,
+        val sunset: Int? = null,
         @field:Json(name = "temp")
         val temp: Temp? = null,
         @field:Json(name = "uvi")
@@ -120,17 +120,17 @@ data class WeatherForeCastResponse(
         // @field:JsonClass(generateAdapter = true)
         data class Temp(
             @field:Json(name = "day")
-            val day: Double? = null,
+            val day: Float? = null,
             @field:Json(name = "eve")
-            val eve: Double? = null,
+            val eve: Float? = null,
             @field:Json(name = "max")
-            val max: Double? = null,
+            val max: Float? = null,
             @field:Json(name = "min")
-            val min: Double? = null,
+            val min: Float? = null,
             @field:Json(name = "morn")
-            val morn: Double? = null,
+            val morn: Float? = null,
             @field:Json(name = "night")
-            val night: Double? = null
+            val night: Float? = null
         )
 
         // @field:JsonClass(generateAdapter = true)

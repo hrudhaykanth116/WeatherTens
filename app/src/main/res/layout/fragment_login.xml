@@ -6,8 +6,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
         tools:context=".features.auth.ui.screens.login.LoginFragment">
 
         <!--  TODO: Use guidelines if few views need to margined -->
@@ -26,23 +24,21 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/default_margin" />
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:background="@color/primary_bg_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_to_your_app"
-                android:textColor="@color/toolbar_text_color"
-                android:textSize="@dimen/_16ssp" />
+                android:layout_height="match_parent"
+                android:text="Login to your app"
+                />
 
-        </com.google.android.material.appbar.MaterialToolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailTextField"
@@ -51,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_40sdp"
             android:hint="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/marginEnd"
+            app:layout_constraintStart_toEndOf="@id/marginStart"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -63,18 +59,18 @@
             android:layout_marginTop="@dimen/default_margin"
             android:hint="@string/password"
             android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/marginEnd"
+            app:layout_constraintStart_toEndOf="@id/marginStart"
             app:layout_constraintTop_toBottomOf="@id/emailTextField" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginButton"
             style="@style/button_style"
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/default_margin"
             android:text="@string/log_in"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/marginEnd"
+            app:layout_constraintStart_toEndOf="@id/marginStart"
             app:layout_constraintTop_toBottomOf="@id/passwordTextField" />
 
         <View
@@ -84,7 +80,7 @@
             android:background="@color/divider_color"
             app:layout_constraintBottom_toBottomOf="@id/dividerText"
             app:layout_constraintEnd_toStartOf="@id/dividerText"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/marginStart"
             app:layout_constraintTop_toTopOf="@id/dividerText" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -94,7 +90,6 @@
             android:layout_marginHorizontal="@dimen/_1sdp"
             android:layout_marginTop="@dimen/default_margin"
             android:text="@string/or"
-
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toStartOf="@id/dividerLastPart"
             app:layout_constraintStart_toEndOf="@id/dividerFirstPart"
@@ -106,18 +101,18 @@
             android:layout_height="@dimen/_1sdp"
             android:background="@color/divider_color"
             app:layout_constraintBottom_toBottomOf="@id/dividerText"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/marginEnd"
             app:layout_constraintStart_toEndOf="@id/dividerText"
             app:layout_constraintTop_toTopOf="@id/dividerText" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signUpButton"
             style="@style/button_style"
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/default_margin"
             android:text="@string/sign_up"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/marginEnd"
+            app:layout_constraintStart_toEndOf="@id/marginStart"
             app:layout_constraintTop_toBottomOf="@id/dividerText" />
 
 

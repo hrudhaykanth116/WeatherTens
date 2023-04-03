@@ -1,8 +1,12 @@
 
 Display user error messages and remove user messages in all places.
 
-Implement splas screen api and login status properly.
+Implement splash screen api and login status properly.
+
+Implement pull down to refresh.
 
 Use di for dispatchers in data layer components.
+
+Try catch firebase operations.
 
 Add Firebase app check for App integrity.

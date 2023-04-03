@@ -35,5 +35,6 @@ data class WeatherListItemUIState(
     val minTemp: String,
     val windSpeed: String,
     val clouds: String,
+    val pressure: String,
     val onClick: (() -> Unit)? = null,
 ): Parcelable

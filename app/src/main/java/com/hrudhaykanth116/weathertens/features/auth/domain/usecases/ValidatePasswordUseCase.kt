@@ -14,7 +14,7 @@ class ValidatePasswordUseCase @Inject constructor(
         return if (password.isNullOrBlank()) {
             UIText.Text("Password cannot be empty.")
         } else if (password.length < 6) {
-            UIText.Text("Password length should be greater than 6")
+            UIText.Text("Password length should be greater than 5")
         } else {
             null
         }

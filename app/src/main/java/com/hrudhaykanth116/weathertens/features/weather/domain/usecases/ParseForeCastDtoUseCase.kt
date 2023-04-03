@@ -1,6 +1,8 @@
 package com.hrudhaykanth116.weathertens.features.weather.domain.usecases
 
+import com.hrudhaykanth116.weathertens.common.utils.conversions.TemperatureConverter
 import com.hrudhaykanth116.weathertens.common.utils.date.DateTimeUtils
+import com.hrudhaykanth116.weathertens.common.utils.number.truncateToDecimals
 import com.hrudhaykanth116.weathertens.features.weather.data.models.WeatherForeCastResponse
 import com.hrudhaykanth116.weathertens.features.weather.domain.models.WeatherListItemUIState
 import kotlinx.coroutines.Dispatchers
@@ -10,28 +12,30 @@ import javax.inject.Singleton
 
 @Singleton
 class ParseForeCastDtoUseCase @Inject constructor(
-    private val dateTimeUtils: DateTimeUtils
+    private val dateTimeUtils: DateTimeUtils,
+    private val temperatureConverter: TemperatureConverter,
 ) {
 
     // TODO: Use DI to inject this
     private val dispatcher = Dispatchers.Default
 
-    suspend operator fun invoke(data: WeatherForeCastResponse): List<WeatherListItemUIState> = withContext(dispatcher){
-        val dailyData = data.daily ?: return@withContext listOf()
+    suspend operator fun invoke(data: WeatherForeCastResponse): List<WeatherListItemUIState> =
+        withContext(dispatcher) {
+            val dailyData = data.daily ?: return@withContext listOf()
 
-        val weatherListItemUIStates = mutableListOf<WeatherListItemUIState>()
+            val weatherListItemUIStates = mutableListOf<WeatherListItemUIState>()
 
-        dailyData.forEach { dayDataNullable ->
-            dayDataNullable?.let { dayData ->
-                weatherListItemUIStates.add(
-                    getWeatherListItemUIState(dayData)
-                )
+            dailyData.forEach { dayDataNullable ->
+                dayDataNullable?.let { dayData ->
+                    weatherListItemUIStates.add(
+                        getWeatherListItemUIState(dayData)
+                    )
+                }
+
             }
 
+            return@withContext weatherListItemUIStates
         }
-
-        return@withContext weatherListItemUIStates
-    }
 
     private fun getWeatherListItemUIState(dayData: WeatherForeCastResponse.Daily) =
         WeatherListItemUIState(
@@ -46,12 +50,15 @@ class ParseForeCastDtoUseCase @Inject constructor(
             weather = dayData.weather?.firstOrNull()?.main.orEmpty(),
             humidity = dayData.humidity?.toString().orEmpty(),
             rain = dayData.rain?.toString().orEmpty(),
-            sunrise = dayData.sunrise?.toString().orEmpty(),
-            sunset = dayData.sunset?.toString().orEmpty(),
-            maxTemp = dayData.temp?.max?.toString().orEmpty(),
-            minTemp = dayData.temp?.min?.toString().orEmpty(),
+            sunrise = dateTimeUtils.getTimeFromSecs(dayData.sunrise!!),
+            sunset = dateTimeUtils.getTimeFromSecs(dayData.sunset!!),
+            maxTemp = temperatureConverter.getCelsiusFromKelvin(dayData.temp?.max)
+                ?.truncateToDecimals(1).orEmpty(),
+            minTemp = temperatureConverter.getCelsiusFromKelvin(dayData.temp?.min)
+                ?.truncateToDecimals(1).orEmpty(),
             windSpeed = dayData.windSpeed?.toString().orEmpty(),
-            clouds = dayData.clouds?.toString().orEmpty()
+            clouds = dayData.clouds?.toString().orEmpty(),
+            pressure = dayData.pressure?.toString().orEmpty()
         )
 
 }

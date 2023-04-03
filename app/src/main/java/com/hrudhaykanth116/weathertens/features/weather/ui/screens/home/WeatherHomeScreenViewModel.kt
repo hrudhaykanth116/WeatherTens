@@ -111,7 +111,7 @@ class WeatherHomeScreenViewModel @Inject constructor(
                 firebaseAuth.signOut()
                 setState {
                     copy(
-                        isLoggedOut = false,
+                        isLoggedOut = true,
                     )
                 }
             }

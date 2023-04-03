@@ -1,6 +1,7 @@
 package com.hrudhaykanth116.weathertens.common.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -14,16 +15,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import com.hrudhaykanth116.weathertens.common.ui.models.InputType
 import com.hrudhaykanth116.weathertens.common.ui.models.TextFieldData
+import com.hrudhaykanth116.weathertens.common.utils.compose.MyPreview
 
-@Preview
+@MyPreview
 @Composable
 fun AppFormInputTextPreview() {
     AppFormInputText(
@@ -40,10 +42,13 @@ fun AppFormInputTextPreview() {
 @Composable
 fun AppFormInputText(
     textFieldData: TextFieldData,
+    modifier: Modifier = Modifier,
     onInputChange: (TextFieldValue) -> Unit = {}
 ) {
 
-    Column() {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+    ) {
         // if (!label.isNullOrBlank()) {
         //     Text(
         //         text = label,
@@ -54,16 +59,17 @@ fun AppFormInputText(
 
         when (textFieldData.inputType) {
             is InputType.PwdInputType -> {
-                AppPwdTextField(textFieldData, onInputChange)
+                AppPwdTextField(textFieldData, modifier = modifier, onInputChange)
             }
             is InputType.RegularInputType -> {
                 AppTextField(
-                    textFieldData, onInputChange = onInputChange
+                    textFieldData, modifier = modifier, onInputChange = onInputChange
                 )
             }
             InputType.EmailInputType -> {
                 AppTextField(
                     textFieldData, onInputChange = onInputChange,
+                    modifier = modifier,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                     )
@@ -73,7 +79,8 @@ fun AppFormInputText(
         if (!textFieldData.error.isNullOrBlank()) {
             Text(
                 text = textFieldData.error,
-                color = Color.Red
+                color = Color.Red,
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
@@ -84,6 +91,7 @@ fun AppFormInputText(
 @Composable
 private fun AppPwdTextField(
     textFieldData: TextFieldData,
+    modifier: Modifier,
     onInputChange: (TextFieldValue) -> Unit,
 ) {
 
@@ -92,6 +100,7 @@ private fun AppPwdTextField(
 
     AppTextField(
         textFieldData, onInputChange = onInputChange,
+        modifier = modifier,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
@@ -111,18 +120,20 @@ private fun AppPwdTextField(
 @Composable
 fun AppTextField(
     textFieldData: TextFieldData,
+    modifier: Modifier = Modifier,
     onInputChange: (TextFieldValue) -> Unit = {},
     trailingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     OutlinedTextField(
+        modifier = modifier.fillMaxWidth(),
         value = textFieldData.inputValue,
         isError = textFieldData.error?.isNotBlank() == true,
         onValueChange = onInputChange,
         // visualTransformation = PasswordVisualTransformation(),
         label = {
-            textFieldData.label?.let { Text(text = it) }
+            textFieldData.hint?.let { Text(text = it) }
         },
         trailingIcon = trailingIcon,
         visualTransformation = visualTransformation,

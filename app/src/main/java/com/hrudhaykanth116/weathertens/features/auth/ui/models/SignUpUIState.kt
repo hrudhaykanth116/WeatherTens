@@ -26,6 +26,8 @@ data class SignUpUIState(
 
     val userMessage: UIText? = null,
     val isSignedUp: Boolean = false,
+
+    val isLoading: Boolean = false,
 ) {
 
     fun getStateAfterValidation(
@@ -38,17 +40,17 @@ data class SignUpUIState(
             repeatedPasswordError = if (passwordTextFieldValue.text != repeatedPassword.text) UIText.Text(
                 "Passwords do not match"
             ) else null,
-            userNameError = if (passwordTextFieldValue.text.isBlank()) UIText.Text("Passwords do not match") else null,
+            userNameError = if (userName.text.isBlank()) UIText.Text("User name cannot be empty") else null,
             bioError = if (bio.text.isBlank()) UIText.Text("Bio cannot be empty") else null,
         )
     }
 
     fun containsError(): Boolean {
-        return emailError == null
-                && passwordError == null
-                && repeatedPasswordError == null
-                && userNameError == null
-                && bioError == null
+        return emailError != null
+                || passwordError != null
+                || repeatedPasswordError != null
+                || userNameError != null
+                || bioError != null
     }
 
 }
